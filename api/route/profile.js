@@ -1,5 +1,5 @@
 const express = require('express');
-const { app } = require('firebase-admin');
+// const { app } = require('firebase-admin');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Matrimony = require('../model/profile')
@@ -89,7 +89,7 @@ router.post('/',(req,res,next)=>{
     matrimony.save()
     .then(result=>{
         console.log(result);
-        res.status(200).json({
+        return res.status(200).json({
             message: "Successful",
             newMatrimony:result
         })

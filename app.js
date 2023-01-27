@@ -1,25 +1,31 @@
+ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+
+mongoose.set('strictQuery',false );
+// const uri = "mongodb+srv://root:root@matrimony.tcqurxb.mongodb.net/Matrimony?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_URI
+
+ mongoose.connect(uri,{
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+},)
+    .then( () => {
+        console.log('Connected to the database ')
+    })
+    .catch( (err) => {
+        console.error(`Error connecting to the database. n${err}`);
+    })
 
 //create route
 const profileRoute = require('./api/route/profile');
 // const userRoute = require('./api/route/user');
 const imgRoute = require('./api/route/img');
-
-//mongo DB connection
-const mongoDB = "mongodb://localhost:27017/matrimony"
-mongoose.connect(mongoDB,(err) =>{
-    if(err){
-        console.log(`MongoDB is not conected`);
-    }
-    else{
-        console.log(`MongoDB is Connect Successfully`);
-    }
- });
 
 //using bodyparser
 app.use(bodyParser.urlencoded({extended:false}));
